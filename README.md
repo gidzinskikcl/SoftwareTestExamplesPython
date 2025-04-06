@@ -77,7 +77,3 @@ The Calendar Application is an online platform designed to help users organize t
 **13. Calendar View Navigation**
 
 - The system shall allow users to navigate between different months, weeks, and days using navigation buttons or calendar date selection.
-
-**14. Event Export**
-
-- Users shall be able to export their calendar events to a file format such as `.ics` (iCalendar) for use with other calendar applications.
