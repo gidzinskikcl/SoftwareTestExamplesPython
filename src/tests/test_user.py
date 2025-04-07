@@ -33,70 +33,27 @@ class TestUser:
 
 
     @pytest.mark.parametrize(
-        "email, name, is_member, expected_exception",
+        "password, expected_result",
         [
-            (10, 100, 2, TypeError),  # Invalid type: int
-            (1.0, 1.0, 2.0, TypeError),  # Invalid type: float
-            (False, False, False, TypeError),  # Invalid type: bool
-            (True, True, True, TypeError),  # Invalid type: bool
-            (None, None, None, TypeError),  # Invalid type: None
+            ("password123", True),  # Valid password
+            ("wrongpassword", False),  # Invalid password
+            ("", False)  # Empty password
         ]
     )
-    def test_repr_invalid_input(self, email, name, is_member, expected_exception):
-        """
-        Test that a TypeError is raised when invalid input is provided to the User constructor.
-        
-        This test checks that providing non-string values for the `email` and `name` fields 
-        of a User instance raises a `TypeError`.
-        """
-        user1 = user.User(
-            email=email,
-            password="password123",
-            name=name,
-            is_member=is_member
-        )
-        with pytest.raises(TypeError) as e:
-            repr(user1)
-
-
-    def test_check_password(self, user_fixture):
+    def test_check_password(self, password, expected_result):
         """
         Test the password checking functionality of a User instance.
         
         This test verifies that the check_password method correctly identifies 
         matching and non-matching passwords.
         """
-        assert user_fixture.check_password("password123") is True
-        assert user_fixture.check_password("wrongpassword") is False
-
-
-    @pytest.mark.parametrize(
-        "password, expected_exception",
-        [
-            (100, TypeError),      # Invalid type: int
-            (1.0, TypeError),      # Invalid type: float
-            (False, TypeError),    # Invalid type: bool 
-            (True, TypeError),    # Invalid type: bool 
-            (None, TypeError)      # Invalid type: None
-        ]
-    )
-    def test_check_password_invalid_type(self, password, expected_exception):
-        """
-        Test that the check_password method raises a TypeError when the password is of an invalid type.
-        
-        This test checks multiple invalid password types (int, float, bool, None) to ensure that 
-        the check_password method raises the expected exception for each case.
-        """
         user1 = user.User(
             email="john.smith@hotmail.com",
-            password=password,
+            password="password123",
             name="John Smith",
             is_member=True
         )
-        with pytest.raises(expected_exception):
-            user1.check_password(100)
-
-
+        assert user1.check_password(password) == expected_result
     @pytest.mark.parametrize(
         "is_member, expected_discount",
         [

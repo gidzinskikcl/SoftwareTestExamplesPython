@@ -1,32 +1,24 @@
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
-
-class User(Base):
-    __tablename__ = 'users'
-    
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String, unique=True, nullable=False)
-    password = Column(String, nullable=False)
-    name = Column(String, nullable=True)
-    is_member = Column(Boolean, default=False)  # Membership status (e.g., Regular, Member)
-
-    def __init__(self, email, password, name=None, is_member=False):
+class User:
+    def __init__(
+            self, 
+            email: str, 
+            password: str, 
+            name: str, 
+            is_member: bool=False
+    ):
         self.email = email
         self.password = password
         self.name = name
         self.is_member = is_member
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<User(email={self.email}, name={self.name})>"
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         """Check if the provided password matches the stored password."""
         return self.password == password  # This is for simplicity, you should hash the password in production.
 
-    def get_membership_discount(self):
+    def get_membership_discount(self) -> float:
         """Return a discount based on membership."""
         if self.is_member:
             return 0.15  # 15% discount for members
