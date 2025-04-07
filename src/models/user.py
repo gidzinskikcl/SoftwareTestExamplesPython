@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -12,8 +12,6 @@ class User(Base):
     password = Column(String, nullable=False)
     name = Column(String, nullable=True)
     is_member = Column(Boolean, default=False)  # Membership status (e.g., Regular, Member)
-    
-    events = relationship("Event", back_populates="user", cascade="all, delete-orphan")
 
     def __init__(self, email, password, name=None, is_member=False):
         self.email = email
